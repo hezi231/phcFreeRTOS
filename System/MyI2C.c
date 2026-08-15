@@ -1,0 +1,92 @@
+#include "stm32f10x.h"                  // Device header
+#include "Delay.h"
+
+void MyI2C_W_SCL(uint8_t BitValue)
+{
+	GPIO_WriteBit(GPIOB,GPIO_Pin_10,(BitAction)BitValue);
+}
+
+void MyI2C_W_SDA(uint8_t BitValue)
+{
+	GPIO_WriteBit(GPIOB,GPIO_Pin_11,(BitAction)BitValue);
+}
+
+uint8_t MyI2C_R_SDA(void)
+{
+	uint8_t BitValue;
+	BitValue = GPIO_ReadInputDataBit(GPIOB,GPIO_Pin_11);
+	return BitValue;
+}
+
+void MyI2C_Init(void)
+{
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB,ENABLE);
+	
+	GPIO_InitTypeDef GPIO_InitStructure;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_OD;
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_10 | GPIO_Pin_11;
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+	GPIO_Init(GPIOB,&GPIO_InitStructure);
+	
+	GPIO_SetBits(GPIOB,GPIO_Pin_10 | GPIO_Pin_11);
+}
+
+void MyI2C_Star(void)
+{
+	MyI2C_W_SDA(1);
+	MyI2C_W_SCL(1);
+	MyI2C_W_SDA(0);
+	MyI2C_W_SCL(0);
+}
+
+void MyI2C_Stop(void)
+{
+	MyI2C_W_SDA(0);
+	MyI2C_W_SCL(1);
+	MyI2C_W_SDA(1);
+}
+
+void MyI2C_SendByte(uint16_t Data)
+{
+	uint8_t i;
+	for(i = 0;i < 8;i ++)
+	{
+		MyI2C_W_SDA(Data & (0x80 >> i));
+		MyI2C_W_SCL(1);
+		MyI2C_W_SCL(0);
+	}
+}
+
+uint8_t MyI2C_ReceiveByte(void)
+{
+	uint8_t i;
+	uint8_t Data = 0x00;
+	MyI2C_W_SDA(1);
+	for(i = 0;i < 8;i ++)
+	{
+		MyI2C_W_SCL(1);
+		if(MyI2C_R_SDA() == 1)
+		{
+			Data |= (0x80 >> i);
+		}
+		MyI2C_W_SCL(0);
+	}
+	return Data;
+}
+
+void MyI2C_SendAck(uint8_t Ack)
+{
+	MyI2C_W_SDA(Ack);
+	MyI2C_W_SCL(1);
+	MyI2C_W_SCL(0);
+}
+
+uint8_t MyI2C_ReceiveAck(void)
+{
+	uint8_t Ack = 0x00;
+	MyI2C_W_SDA(1);
+	MyI2C_W_SCL(1);
+	Ack = MyI2C_R_SDA();
+	MyI2C_W_SCL(0);
+	return Ack;
+}

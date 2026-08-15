@@ -1,0 +1,452 @@
+version: "4.1"
+name: test
+type: ARM
+deviceName: null
+packDir: null
+srcDirs: []
+virtualFolder:
+  name: <virtual_root>
+  files: []
+  folders:
+    - name: Start
+      files:
+        - path: Start/core_cm3.c
+        - path: Start/core_cm3.h
+        - path: Start/startup_stm32f10x_md.s
+        - path: Start/stm32f10x.h
+        - path: Start/system_stm32f10x.c
+        - path: Start/system_stm32f10x.h
+      folders: []
+    - name: Libraries
+      files:
+        - path: Libraries/misc.c
+        - path: Libraries/misc.h
+        - path: Libraries/stm32f10x_adc.c
+        - path: Libraries/stm32f10x_adc.h
+        - path: Libraries/stm32f10x_bkp.c
+        - path: Libraries/stm32f10x_bkp.h
+        - path: Libraries/stm32f10x_can.c
+        - path: Libraries/stm32f10x_can.h
+        - path: Libraries/stm32f10x_cec.c
+        - path: Libraries/stm32f10x_cec.h
+        - path: Libraries/stm32f10x_crc.c
+        - path: Libraries/stm32f10x_crc.h
+        - path: Libraries/stm32f10x_dac.c
+        - path: Libraries/stm32f10x_dac.h
+        - path: Libraries/stm32f10x_dbgmcu.c
+        - path: Libraries/stm32f10x_dbgmcu.h
+        - path: Libraries/stm32f10x_dma.c
+        - path: Libraries/stm32f10x_dma.h
+        - path: Libraries/stm32f10x_exti.c
+        - path: Libraries/stm32f10x_exti.h
+        - path: Libraries/stm32f10x_flash.c
+        - path: Libraries/stm32f10x_flash.h
+        - path: Libraries/stm32f10x_fsmc.c
+        - path: Libraries/stm32f10x_fsmc.h
+        - path: Libraries/stm32f10x_gpio.c
+        - path: Libraries/stm32f10x_gpio.h
+        - path: Libraries/stm32f10x_i2c.c
+        - path: Libraries/stm32f10x_i2c.h
+        - path: Libraries/stm32f10x_iwdg.c
+        - path: Libraries/stm32f10x_iwdg.h
+        - path: Libraries/stm32f10x_pwr.c
+        - path: Libraries/stm32f10x_pwr.h
+        - path: Libraries/stm32f10x_rcc.c
+        - path: Libraries/stm32f10x_rcc.h
+        - path: Libraries/stm32f10x_rtc.c
+        - path: Libraries/stm32f10x_rtc.h
+        - path: Libraries/stm32f10x_sdio.c
+        - path: Libraries/stm32f10x_sdio.h
+        - path: Libraries/stm32f10x_spi.c
+        - path: Libraries/stm32f10x_spi.h
+        - path: Libraries/stm32f10x_tim.c
+        - path: Libraries/stm32f10x_tim.h
+        - path: Libraries/stm32f10x_usart.c
+        - path: Libraries/stm32f10x_usart.h
+        - path: Libraries/stm32f10x_wwdg.c
+        - path: Libraries/stm32f10x_wwdg.h
+      folders: []
+    - name: Hardware
+      files:
+        - path: Hardware/BlueTooth.c
+        - path: Hardware/BlueTooth.h
+        - path: Hardware/Encoder.c
+        - path: Hardware/Encoder.h
+        - path: Hardware/Key.c
+        - path: Hardware/Key.h
+        - path: Hardware/KeyEXIT.c
+        - path: Hardware/KeyEXIT.h
+        - path: Hardware/Motor.c
+        - path: Hardware/Motor.h
+        - path: Hardware/MPU6050.c
+        - path: Hardware/MPU6050.h
+        - path: Hardware/MPU6050_Reg.h
+        - path: Hardware/NRF24L01.c
+        - path: Hardware/NRF24L01.h
+        - path: Hardware/NRF24L01_Define.h
+        - path: Hardware/OLED.c
+        - path: Hardware/OLED.h
+        - path: Hardware/OLED_Matrix.c
+        - path: Hardware/OLED_Matrix.h
+        - path: Hardware/PWM.c
+        - path: Hardware/PWM.h
+        - path: Hardware/Serial.c
+        - path: Hardware/Serial.h
+        - path: Hardware/LED.c
+        - path: Hardware/LED.h
+      folders: []
+    - name: System
+      files:
+        - path: System/delay.c
+        - path: System/delay.h
+        - path: System/RunTick.c
+        - path: System/RunTick.h
+        - path: System/MyI2C.c
+        - path: System/MyI2C.h
+        - path: System/MyRTC.c
+        - path: System/MyRTC.h
+        - path: System/Timer.c
+        - path: System/Timer.h
+      folders: []
+    - name: Task
+      files:
+        - path: Task/Task_Init.c
+        - path: Task/Task_Key_Scan.c
+        - path: Task/Task_Config.h
+        - path: Task/Task_Hardware_Init.c
+        - path: Task/Task_OLED.c
+        - path: Task/Task_MPU6050.c
+        - path: Task/Task_Motor_Control.c
+        - path: Task/Task_BlueTooth.c
+        - path: Task/Task_Encoder.c
+        - path: Task/Task_Run.c
+        - path: Task/Task_Debug.c
+        - path: Task/Task_PID.c
+      folders:
+        - name: include
+          files:
+            - path: Task/include/Task_BlueTooth.h
+            - path: Task/include/Task_Encoder.h
+            - path: Task/include/Task_Hardware_Init.h
+            - path: Task/include/Task_Init.h
+            - path: Task/include/Task_Key_Scan.h
+            - path: Task/include/Task_Motor_Control.h
+            - path: Task/include/Task_MPU6050.h
+            - path: Task/include/Task_OLED.h
+            - path: Task/include/Task_Run.h
+            - path: Task/include/Task_Debug.h
+            - path: Task/include/Task_PID.h
+          folders: []
+    - name: User
+      files:
+        - path: User/main.c
+        - path: User/stm32f10x_conf.h
+        - path: User/stm32f10x_it.c
+        - path: User/stm32f10x_it.h
+        - path: User/FreeRTOS_Demo.c
+        - path: User/FreeRTOS_Demo.h
+        - path: User/PID.c
+        - path: User/PID.h
+      folders: []
+    - name: DebugTool
+      files:
+        - path: DebugTool/Debugconfig.h
+        - path: DebugTool/Tool.c
+        - path: DebugTool/Tool.h
+      folders: []
+    - name: FreeRTOS
+      files: []
+      folders:
+        - name: inc
+          files:
+            - path: FreeRTOS/FreeRTOSConfig.h
+            - path: FreeRTOS/inc/atomic.h
+            - path: FreeRTOS/inc/croutine.h
+            - path: FreeRTOS/inc/deprecated_definitions.h
+            - path: FreeRTOS/inc/event_groups.h
+            - path: FreeRTOS/inc/FreeRTOS.h
+            - path: FreeRTOS/inc/list.h
+            - path: FreeRTOS/inc/message_buffer.h
+            - path: FreeRTOS/inc/mpu_prototypes.h
+            - path: FreeRTOS/inc/mpu_syscall_numbers.h
+            - path: FreeRTOS/inc/mpu_wrappers.h
+            - path: FreeRTOS/inc/newlib-freertos.h
+            - path: FreeRTOS/inc/picolibc-freertos.h
+            - path: FreeRTOS/inc/portable.h
+            - path: FreeRTOS/inc/projdefs.h
+            - path: FreeRTOS/inc/queue.h
+            - path: FreeRTOS/inc/semphr.h
+            - path: FreeRTOS/inc/stack_macros.h
+            - path: FreeRTOS/inc/StackMacros.h
+            - path: FreeRTOS/inc/stream_buffer.h
+            - path: FreeRTOS/inc/task.h
+            - path: FreeRTOS/inc/timers.h
+          folders: []
+        - name: port
+          files:
+            - path: FreeRTOS/port/heap_4.c
+            - path: FreeRTOS/port/port.c
+          folders: []
+        - name: src
+          files:
+            - path: FreeRTOS/src/croutine.c
+            - path: FreeRTOS/src/event_groups.c
+            - path: FreeRTOS/src/list.c
+            - path: FreeRTOS/src/queue.c
+            - path: FreeRTOS/src/stream_buffer.c
+            - path: FreeRTOS/src/tasks.c
+            - path: FreeRTOS/src/timers.c
+          folders: []
+    - name: ::CMSIS
+      files: []
+      folders: []
+    - name: ::Device
+      files: []
+      folders: []
+    - name: ::File System
+      files: []
+      folders: []
+    - name: ::USB
+      files: []
+      folders: []
+dependenceList: []
+outDir: build
+miscInfo:
+  uid: 8c3e8cb2b09ff58ee3504d05119f6df8
+targets:
+  Target 1:
+    cppPreprocessAttrs:
+      defineList:
+        - USE_STDPERIPH_DRIVER
+        - STM32F10X_MD
+      incList:
+        - Start
+        - User
+        - Libraries
+        - FreeRTOS
+        - FreeRTOS/inc
+        - FreeRTOS/port
+        - FreeRTOS/src
+        - System
+        - Hardware
+        - DebugTool
+        - Task
+        - Task/include
+        - .cmsis/include
+        - RTE/_Target 1
+      libList: []
+    excludeList: []
+    settings:
+      debugger: cortex-debug
+    toolchain: AC5
+    toolchainConfigMap:
+      AC5:
+        archExtensions: ""
+        cpuType: Cortex-M3
+        floatingPointHardware: none
+        options:
+          version: 4
+          afterBuildTasks:
+            - name: "[Copy linker output for Keil User Commands]"
+              abortAfterFailed: true
+              command: mkdir ${KEIL_OUTPUT_DIR} & copy "${OutDir}\${ProjectName}.axf" "${KEIL_OUTPUT_DIR}\${ProjectName}.axf"
+              disable: false
+            - name: D:\Keil5\ARM\ARMCC\bin\fromelf --bin -o "$L@L.bin" "#L"
+              abortAfterFailed: true
+              command: D:\Keil5\ARM\ARMCC\bin\fromelf --bin -o "${KEIL_OUTPUT_DIR}\${ProjectName}.bin" "${KEIL_OUTPUT_DIR}\${ProjectName}.axf"
+              disable: false
+            - name: D:\Keil5\ARM\ARMCC\bin\fromelf --elf -o "$L@L.elf" "#L"
+              abortAfterFailed: true
+              command: D:\Keil5\ARM\ARMCC\bin\fromelf --elf -o "${KEIL_OUTPUT_DIR}\${ProjectName}.elf" "${KEIL_OUTPUT_DIR}\${ProjectName}.axf"
+              disable: false
+          asm-compiler:
+            defines: []
+          beforeBuildTasks: []
+          c/cpp-compiler:
+            CXX_FLAGS: --no-multibyte-chars
+            C_FLAGS: --no-multibyte-chars
+            c99-mode: true
+            one-elf-section-per-function: true
+            optimization: level-0
+            warnings: all-warnings
+          global:
+            output-debug-info: enable
+            use-microLIB: true
+          linker:
+            $disableOutputTask: false
+            $outputTaskExcludes:
+              - .bin
+              - .s19
+            output-format: elf
+            ro-base: "0x08000000"
+            rw-base: "0x20000000"
+            xo-base: ""
+        scatterFilePath: ""
+        storageLayout:
+          RAM:
+            - id: 1
+              isChecked: false
+              mem:
+                size: "0x0"
+                startAddr: "0x0"
+              noInit: false
+              tag: RAM
+            - id: 2
+              isChecked: false
+              mem:
+                size: "0x0"
+                startAddr: "0x0"
+              noInit: false
+              tag: RAM
+            - id: 3
+              isChecked: false
+              mem:
+                size: "0x0"
+                startAddr: "0x0"
+              noInit: false
+              tag: RAM
+            - id: 1
+              isChecked: true
+              mem:
+                size: "0x5000"
+                startAddr: "0x20000000"
+              noInit: false
+              tag: IRAM
+            - id: 2
+              isChecked: false
+              mem:
+                size: "0x0"
+                startAddr: "0x0"
+              noInit: false
+              tag: IRAM
+          ROM:
+            - id: 1
+              isChecked: false
+              isStartup: false
+              mem:
+                size: "0x0"
+                startAddr: "0x0"
+              tag: ROM
+            - id: 2
+              isChecked: false
+              isStartup: false
+              mem:
+                size: "0x0"
+                startAddr: "0x0"
+              tag: ROM
+            - id: 3
+              isChecked: false
+              isStartup: false
+              mem:
+                size: "0x0"
+                startAddr: "0x0"
+              tag: ROM
+            - id: 1
+              isChecked: true
+              isStartup: true
+              mem:
+                size: "0x10000"
+                startAddr: "0x8000000"
+              tag: IROM
+            - id: 2
+              isChecked: false
+              isStartup: false
+              mem:
+                size: "0x0"
+                startAddr: "0x0"
+              tag: IROM
+        useCustomScatterFile: false
+      AC6:
+        archExtensions: ""
+        cpuType: Cortex-M3
+        floatingPointHardware: none
+        options: ""
+        scatterFilePath: <YOUR_SCATTER_FILE>.sct
+        storageLayout:
+          RAM:
+            - id: 1
+              isChecked: true
+              mem:
+                size: "0x5000"
+                startAddr: "0x20000000"
+              noInit: false
+              tag: IRAM
+          ROM:
+            - id: 1
+              isChecked: true
+              isStartup: true
+              mem:
+                size: "0x10000"
+                startAddr: "0x08000000"
+              tag: IROM
+        useCustomScatterFile: false
+      GCC:
+        archExtensions: ""
+        cpuType: Cortex-M3
+        floatingPointHardware: none
+        options:
+          version: 5
+          afterBuildTasks: []
+          asm-compiler:
+            ASM_FLAGS: ""
+          beforeBuildTasks: []
+          c/cpp-compiler:
+            CXX_FLAGS: ""
+            C_FLAGS: ""
+            language-c: c11
+            language-cpp: c++11
+            one-elf-section-per-data: true
+            one-elf-section-per-function: true
+            optimization: level-debug
+            warnings: all-warnings
+          global:
+            $float-abi-type: hard
+            misc-control: ""
+            not-use-syscalls: true
+            output-debug-info: enable
+            use-newlib-nano: true
+          linker:
+            $outputTaskExcludes:
+              - .bin
+            LD_FLAGS: ""
+            LIB_FLAGS: -lm
+            output-format: elf
+            remove-unused-input-sections: true
+        scatterFilePath: <YOUR_LINKER_SCRIPT>.lds
+        storageLayout:
+          RAM: []
+          ROM: []
+        useCustomScatterFile: true
+    uploadConfigMap:
+      JLink:
+        baseAddr: ""
+        bin: ""
+        cpuInfo:
+          cpuName: "null"
+          vendor: "null"
+        otherCmds: ""
+        proType: 1
+        speed: 8000
+      OpenOCD:
+        baseAddr: "0x08000000"
+        bin: ""
+        interface: stlink
+        target: stm32f1x
+      STLink:
+        address: "0x8000000"
+        bin: ""
+        elFile: None
+        optionBytes: .eide/target 1.st.option.bytes.ini
+        otherCmds: ""
+        proType: SWD
+        resetMode: default
+        runAfterProgram: true
+        speed: 4000
+      pyOCD:
+        baseAddr: "0x08000000"
+        bin: ""
+        config: .eide/target 1.pyocd.yaml
+        otherCmds: ""
+        speed: 4M
+        targetName: cortex_m
+    uploader: OpenOCD
