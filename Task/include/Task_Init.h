@@ -28,6 +28,7 @@ extern UserTask_t Motor_Control;
 extern UserTask_t Encoder;
 extern UserTask_t PID;
 extern UserTask_t Bluetooth_UART;
+extern TaskHandle_t Task_NRF24L01_Handle;
 
 extern UserTask_t Debugger;
 /*队列句柄*/

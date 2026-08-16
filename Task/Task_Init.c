@@ -77,6 +77,14 @@ UserTask_t Bluetooth_UART = {
 		.Task_Stack_Size = 512,
 };
 
+/*无线任务配置*/	
+TaskHandle_t Task_NRF24L01_Handle;
+UserTask_t NRF24L01 = {
+		.Task_Priority = 8,
+		.Task_Stack_Size = 512,
+};
+
+
 #if (config_ENABLE_DEBUG == 1)
 /*Debug任务配置,用于串口打印任务状态*/
 TaskHandle_t Task_Debugger_Handle;

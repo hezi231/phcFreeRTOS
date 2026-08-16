@@ -122,6 +122,7 @@ virtualFolder:
         - path: Task/Task_Run.c
         - path: Task/Task_Debug.c
         - path: Task/Task_PID.c
+        - path: Task/Task_NRF24L001.c
       folders:
         - name: include
           files:
@@ -136,6 +137,7 @@ virtualFolder:
             - path: Task/include/Task_Run.h
             - path: Task/include/Task_Debug.h
             - path: Task/include/Task_PID.h
+            - path: Task/include/Task_NRF24L01.h
           folders: []
     - name: User
       files:
