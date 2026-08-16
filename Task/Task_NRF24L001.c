@@ -2,6 +2,7 @@
 #include "Task_Init.h"
 #include "Task_Config.h"
 #include "NRF24L01.h"
+#include "Task_PID.h"
 
 void Task_NRF24L01(void *arg)
 {
@@ -17,6 +18,8 @@ void Task_NRF24L01(void *arg)
             rocker_send.LV = RXData[1];
             rocker_send.RH = RXData[2];
             rocker_send.RV = RXData[3];
+            SpeedPID.Target = rocker_send.LV / 25.0;
+            pwm_send.DifPWM = rocker_send.RH / 2.5;
             xQueueSend(nrf24l01_queuek,&rocker_send,0);
         }
         vTaskDelayUntil(&last_wake_time,DelayTime);
