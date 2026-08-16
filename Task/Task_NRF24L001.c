@@ -19,7 +19,7 @@ void Task_NRF24L01(void *arg)
             rocker_send.RH = RXData[2];
             rocker_send.RV = RXData[3];
             SpeedPID.Target = rocker_send.LV / 25.0;
-            pwm_send.DifPWM = rocker_send.RH / 2.5;
+            TurnPID.Target = rocker_send.RH / 25.0;
             xQueueSend(nrf24l01_queuek,&rocker_send,0);
         }
         vTaskDelayUntil(&last_wake_time,DelayTime);

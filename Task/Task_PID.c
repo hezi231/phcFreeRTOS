@@ -60,6 +60,10 @@ void Task_PID(void *arg)
             SpeedPID.Actual = motor_speed_receive.AveSpeed;
             PID_Updata(&SpeedPID);
             AnglePID.Target = -SpeedPID.Out;
+
+            TurnPID.Actual = motor_speed_receive.DifSpeed;
+            PID_Updata(&TurnPID);
+            pwm_send.DifPWM = TurnPID.Out;
         }
 
         pwm_send.LeftPWM = pwm_send.AvePWM + pwm_send.DifPWM / 2.0;

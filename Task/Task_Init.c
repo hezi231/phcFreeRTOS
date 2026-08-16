@@ -126,6 +126,13 @@ PID_t SpeedPID = {
 	.OutMin = -20,
 };
 
+PID_t TurnPID = {
+	.Kp = 3.00,
+	.Ki = 2.45,
+	.Kd = 0,
+	.OutMax = 50,
+	.OutMin = -50,	
+};
 void Task_Init(void)
 {
 	/*创建队列*/

@@ -46,6 +46,7 @@ extern TimerHandle_t soft_timer1_handle;
 /*PID结构体*/
 extern PID_t AnglePID;
 extern PID_t SpeedPID;
+extern PID_t TurnPID;
 
 void Task_Init(void);
 void Timer1Callback(TimerHandle_t xTimer);
