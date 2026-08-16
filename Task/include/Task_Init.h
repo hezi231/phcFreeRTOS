@@ -37,6 +37,7 @@ extern QueueHandle_t mpu6050_queue;
 extern QueueHandle_t motor_pwm_queue;
 extern QueueHandle_t motor_speed_queue;
 extern QueueHandle_t bluetooth_send_queue;
+extern QueueHandle_t nrf24l01_queuek;
 extern QueueHandle_t motor_speed_target_queue;
 
 /*软件定时器句柄*/
