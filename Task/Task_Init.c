@@ -209,7 +209,7 @@ void Task_Init(void)
 				NRF24L01.Task_Priority,
 				&Task_NRF24L01_Handle);
 
-#if (config_ENABLE_DEBUG == 1)
+`#if (config_ENABLE_DEBUG == 1)
 	xTaskCreate(Task_Debug,
 				"Task_Debug",
 				Debugger.Task_Stack_Size,
