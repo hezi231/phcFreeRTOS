@@ -34,7 +34,7 @@ void Task_PID(void *arg)
             xQueueOverwrite(motor_pwm_queue,&pwm_send);
             xTaskNotifyGive(Task_Motor_Control_Handle);
             vTaskSuspend(NULL);
-            vTaskDelay(30);    
+            vTaskDelay(30);
         }
         xQueueReceive(mpu6050_queue,&receive_data,0);
 
@@ -57,15 +57,17 @@ void Task_PID(void *arg)
         pwm_send.AvePWM = AnglePID.Out;
         if(xQueueReceive(motor_speed_queue,&motor_speed_receive,0) == pdTRUE)
         {
-            xQueueReceive(motor_speed_target_queue,&target_speed_receive,0);
-            SpeedPID.Target = target_speed_receive.target_speed;
             SpeedPID.Actual = motor_speed_receive.AveSpeed;
             PID_Updata(&SpeedPID);
             AnglePID.Target = -SpeedPID.Out;
+
+            TurnPID.Actual = motor_speed_receive.DifSpeed;
+            PID_Updata(&TurnPID);
+            pwm_send.DifPWM = TurnPID.Out;
         }
 
-        pwm_send.LeftPWM = pwm_send.AvePWM + target_speed_receive.turn_speed / 2.0;
-        pwm_send.RightPWM = pwm_send.AvePWM - target_speed_receive.turn_speed / 2.0;
+        pwm_send.LeftPWM = pwm_send.AvePWM + pwm_send.DifPWM / 2.0;
+        pwm_send.RightPWM = pwm_send.AvePWM - pwm_send.DifPWM / 2.0;
         // BlueTooth_Printf("[plot,%f,%f]", target_speed_receive.target_speed_receive,SpeedPID.Actual = motor_speed_receive.AveSpeed);
         // BlueTooth_Printf("left_speed:%3.2f,right_speed:%3.2f\r\n", target_speed_receive.target_speed ,target_speed.turn_speed );
         // SpeedPID.Target = target_speed.target_speed;

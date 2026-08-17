@@ -28,6 +28,7 @@ extern UserTask_t Motor_Control;
 extern UserTask_t Encoder;
 extern UserTask_t PID;
 extern UserTask_t Bluetooth_UART;
+extern TaskHandle_t Task_NRF24L01_Handle;
 
 extern UserTask_t Debugger;
 /*队列句柄*/
@@ -36,6 +37,7 @@ extern QueueHandle_t mpu6050_queue;
 extern QueueHandle_t motor_pwm_queue;
 extern QueueHandle_t motor_speed_queue;
 extern QueueHandle_t bluetooth_send_queue;
+extern QueueHandle_t nrf24l01_queuek;
 extern QueueHandle_t motor_speed_target_queue;
 
 /*软件定时器句柄*/
@@ -44,6 +46,7 @@ extern TimerHandle_t soft_timer1_handle;
 /*PID结构体*/
 extern PID_t AnglePID;
 extern PID_t SpeedPID;
+extern PID_t TurnPID;
 
 void Task_Init(void);
 void Timer1Callback(TimerHandle_t xTimer);

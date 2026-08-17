@@ -46,25 +46,27 @@ void Task_Bluetooth(void *arg)
 				{
 					SpeedPID.Kd = atof(Value);
 				}
-				// if(strcmp(Name,"TurnKp") == 0)
-				// {
-				// 	TurnPID.Kp = atof(Value);
-				// }
-				// if(strcmp(Name,"TurnKi") == 0)
-				// {
-				// 	TurnPID.Ki = atof(Value);
-				// }
-				// if(strcmp(Name,"TurnKd") == 0)
-				// {
-				// 	TurnPID.Kd = atof(Value);
-					// BlueTooth_Printf("AngleKp:%3.2f,AngleKi:%3.2f,AngleKd:%3.2f\r\n",AnglePID.Kp,AnglePID.Ki,AnglePID.Kd);
-					BlueTooth_Printf("SpeedKp:%3.2f,SpeedKi:%3.2f,SpeedKd:%3.2f\r\n",SpeedPID.Kp,SpeedPID.Ki,SpeedPID.Kd);
+				if(strcmp(Name,"TurnKp") == 0)
+				{
+					TurnPID.Kp = atof(Value);
 				}
+				if(strcmp(Name,"TurnKi") == 0)
+				{
+					TurnPID.Ki = atof(Value);
+				}
+				if(strcmp(Name,"TurnKd") == 0)
+				{
+					TurnPID.Kd = atof(Value);
+				}
+				// BlueTooth_Printf("AngleKp:%3.2f,AngleKi:%3.2f,AngleKd:%3.2f\r\n",AnglePID.Kp,AnglePID.Ki,AnglePID.Kd);
+				// BlueTooth_Printf("SpeedKp:%3.2f,SpeedKi:%3.2f,SpeedKd:%3.2f\r\n",SpeedPID.Kp,SpeedPID.Ki,SpeedPID.Kd);
+				BlueTooth_Printf("TurnKp:%3.2f,TurnKi:%3.2f,TurnKd:%3.2f\r\n",TurnPID.Kp,TurnPID.Ki,TurnPID.Kd);
+				
 			// 	if(strcmp(Name,"Offset") == 0)
 			// 	{
 			// 		AnglePID.OutOffset = atof(Value);
 			// 	}
-		// }
+		}
 			else if(strcmp(p,"j") == 0)
 			{
 				rocker_speed_send.LH = atof(strtok(NULL,","));

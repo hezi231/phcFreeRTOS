@@ -900,6 +900,11 @@
               <FileType>1</FileType>
               <FilePath>.\Task\Task_PID.c</FilePath>
             </File>
+            <File>
+              <FileName>Task_NRF24L001.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Task\Task_NRF24L001.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -1194,6 +1199,11 @@
               <FileName>Task_PID.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\Task\include\Task_PID.h</FilePath>
+            </File>
+            <File>
+              <FileName>Task_NRF24L01.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Task\include\Task_NRF24L01.h</FilePath>
             </File>
           </Files>
         </Group>

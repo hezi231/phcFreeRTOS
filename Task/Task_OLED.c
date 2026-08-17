@@ -53,18 +53,31 @@ void Task_OLED(void *arg)
     // }
 
     /*蓝牙测试*/
+    // while(1)
+    // {
+    //     OLED_Clear();
+    // 	OLED_Printf(0,0,OLED_6X8,"Kp:%3.2f",AnglePID.Kp);
+	// 	OLED_Printf(0,9,OLED_6X8,"Kp:%3.2f",AnglePID.Ki);
+	// 	OLED_Printf(0,17,OLED_6X8,"Kp:%3.2f",AnglePID.Kd);
+	// 	OLED_Printf(0,25,OLED_6X8,"Tar:%5.2f",AnglePID.Target);
+	// 	// OLED_Printf(0,33,OLED_6X8,"Act:%5.2f",Angle);
+	// 	// OLED_Printf(0,25,OLED_6X8,"Tar:%5.2f",AnglePID.Target);
+	// 	// OLED_Printf(0,33,OLED_6X8,"Act:%5.2f",Angle);
+	// 	// OLED_Printf(0,41,OLED_6X8,"Out:%5.2f",AnglePID.Out);
+    //     OLED_UpData();
+    //     vTaskDelay(5);
+    // }
+    /*NRF24L001测试*/
+    Rocker_t receive;
     while(1)
     {
+        xQueueReceive(nrf24l01_queuek,&receive,portMAX_DELAY);
         OLED_Clear();
-    	OLED_Printf(0,0,OLED_6X8,"Kp:%3.2f",AnglePID.Kp);
-		OLED_Printf(0,9,OLED_6X8,"Kp:%3.2f",AnglePID.Ki);
-		OLED_Printf(0,17,OLED_6X8,"Kp:%3.2f",AnglePID.Kd);
-		OLED_Printf(0,25,OLED_6X8,"Tar:%5.2f",AnglePID.Target);
-		// OLED_Printf(0,33,OLED_6X8,"Act:%5.2f",Angle);
-		// OLED_Printf(0,25,OLED_6X8,"Tar:%5.2f",AnglePID.Target);
-		// OLED_Printf(0,33,OLED_6X8,"Act:%5.2f",Angle);
-		// OLED_Printf(0,41,OLED_6X8,"Out:%5.2f",AnglePID.Out);
+        OLED_Printf(0,0,OLED_8X16,"LH:%d",receive.LH);
+        OLED_Printf(0,17,OLED_8X16,"LV:%d",receive.LV);
+        OLED_Printf(0,33,OLED_8X16,"RH:%d",receive.RH);
+        OLED_Printf(0,49,OLED_8X16,"RV:%d",receive.RV);
         OLED_UpData();
-        vTaskDelay(5);
+        vTaskDelay(10);
     }
 }
