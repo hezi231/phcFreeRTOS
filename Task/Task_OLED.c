@@ -69,15 +69,22 @@ void Task_OLED(void *arg)
     // }
     /*NRF24L001测试*/
     Rocker_t receive;
+    Target_Speed_t bluetooth_receive;
     while(1)
     {
-        xQueueReceive(nrf24l01_queuek,&receive,portMAX_DELAY);
-        OLED_Clear();
+        xQueueReceive(nrf24l01_queuek,&receive,0);
+
         OLED_Printf(0,0,OLED_8X16,"LH:%d",receive.LH);
         OLED_Printf(0,17,OLED_8X16,"LV:%d",receive.LV);
         OLED_Printf(0,33,OLED_8X16,"RH:%d",receive.RH);
         OLED_Printf(0,49,OLED_8X16,"RV:%d",receive.RV);
         OLED_UpData();
+        xQueueReceive(motor_speed_target_queue,&bluetooth_receive,0);
+        OLED_ClearArea(57,0,7 * 8,2 * 16);
+        OLED_Printf(57,0,OLED_8X16,"LV:%d",bluetooth_receive.target_speed);
+        OLED_Printf(57,17,OLED_8X16,"RH:%d",bluetooth_receive.turn_speed);
+
+        OLED_UpData();        
         vTaskDelay(10);
     }
 }

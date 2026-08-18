@@ -18,7 +18,7 @@ void Task_NRF24L01(void *arg)
             rocker_send.LV = RXData[1];
             rocker_send.RH = RXData[2];
             rocker_send.RV = RXData[3];
-            SpeedPID.Target = rocker_send.LV / 25.0;
+            SpeedPID.Target = rocker_send.LV / 20.0;
             TurnPID.Target = rocker_send.RH / 25.0;
             xQueueSend(nrf24l01_queuek,&rocker_send,0);
         }

@@ -19,6 +19,7 @@ void Task_Run(void *arg)
         {
             PID_Init(&AnglePID);
             PID_Init(&SpeedPID);
+            PID_Init(&TurnPID);
             xTimerChangePeriod(soft_timer1_handle, 500, 0);
             vTaskResume(Task_PID_Handle);
             vTaskResume(Task_Motor_Control_Handle);

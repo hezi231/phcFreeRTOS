@@ -4,12 +4,19 @@
 #include "Task_Init.h"
 #include <string.h>
 
-char BlueTooth_RxPackage[100];
+#define USART2_DR_BASE					0x40004404
+#define BlueTooth_Rx_Buf				100
+
+char BlueTooth_RxPackage[BlueTooth_Rx_Buf];
+char DMA_Rx_Buf[BlueTooth_Rx_Buf];
+uint8_t BlueTooth_RxFlag = 0;
+uint8_t BlueTooth_RxLength = 0;
 
 void BlueTooth_Init(void)
 {
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART2,ENABLE);
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA,ENABLE);
+	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_DMA1,ENABLE);
 	
 	GPIO_InitTypeDef GPIO_InitStructure;
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
@@ -21,8 +28,24 @@ void BlueTooth_Init(void)
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
 	GPIO_Init(GPIOA,&GPIO_InitStructure);
 
+	DMA_InitTypeDef DMA_InitStructure;
+	DMA_InitStructure.DMA_BufferSize = BlueTooth_Rx_Buf;
+	DMA_InitStructure.DMA_DIR = DMA_DIR_PeripheralSRC;
+	DMA_InitStructure.DMA_M2M = DMA_M2M_Disable;
+	DMA_InitStructure.DMA_MemoryBaseAddr = (uint32_t)DMA_Rx_Buf;
+	DMA_InitStructure.DMA_MemoryDataSize = DMA_MemoryDataSize_Byte;
+	DMA_InitStructure.DMA_MemoryInc = DMA_MemoryInc_Enable;
+	DMA_InitStructure.DMA_Mode = DMA_Mode_Normal;
+	DMA_InitStructure.DMA_PeripheralBaseAddr = (uint32_t)&(USART2 -> DR);
+	DMA_InitStructure.DMA_PeripheralDataSize = DMA_PeripheralDataSize_Byte;
+	DMA_InitStructure.DMA_PeripheralInc = DMA_MemoryInc_Disable;
+	DMA_InitStructure.DMA_Priority = DMA_Priority_High;
+
+	DMA_Init(DMA1_Channel6,&DMA_InitStructure);
+	DMA_Cmd(DMA1_Channel6,ENABLE);
+
 	USART_InitTypeDef USART_InitStructure;
-	USART_InitStructure.USART_BaudRate = 9600;
+	USART_InitStructure.USART_BaudRate = 115200;
 	USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None;
 	USART_InitStructure.USART_Mode = USART_Mode_Tx | USART_Mode_Rx; 
 	USART_InitStructure.USART_Parity = USART_Parity_No;
@@ -30,7 +53,9 @@ void BlueTooth_Init(void)
 	USART_InitStructure.USART_WordLength = USART_WordLength_8b;
 	USART_Init(USART2,&USART_InitStructure);
 	
-	USART_ITConfig(USART2,USART_IT_RXNE,ENABLE);
+	USART_DMACmd(USART2,USART_DMAReq_Rx,ENABLE);
+
+	USART_ITConfig(USART2,USART_IT_IDLE,ENABLE);
 	
 	NVIC_InitTypeDef NVIC_InitStructure;
 	NVIC_InitStructure.NVIC_IRQChannel = USART2_IRQn;
@@ -116,36 +141,48 @@ void BlueTooth_Printf(char *format,...)
 	xTaskNotify(Task_Bluetooth_Handle,0x02,eSetBits);
 }
 
+uint8_t BlueTooth_GetFlagStatus(void)
+{
+	if(BlueTooth_RxFlag == 1)
+	{
+		BlueTooth_RxFlag = 0;
+		return 1;
+	}
+	return 0;
+}
+
 void USART2_IRQHandler(void)
 {
-	static uint8_t RxStatus = 0;
-	static uint8_t Freq;
-	if(USART_GetITStatus(USART2,USART_IT_RXNE) == SET)
+	uint8_t temp = 0;
+	if(USART_GetITStatus(USART2,USART_IT_IDLE) == SET)
 	{
-		uint8_t RxData = USART_ReceiveData(USART2);
-		if(RxStatus == 0)
+		temp = USART2 ->DR;
+		temp = USART2 ->SR;
+		(void)temp;
+		DMA_Cmd(DMA1_Channel6,DISABLE);
+		BlueTooth_RxLength = BlueTooth_Rx_Buf - DMA_GetCurrDataCounter(DMA1_Channel6);
+		if(BlueTooth_RxLength > 0)
 		{
-			if(USART_ReceiveData(USART2) == '[')
-				{
-					RxStatus = 1;
-					Freq = 0;
-				}
+			memcpy(BlueTooth_RxPackage,DMA_Rx_Buf,BlueTooth_RxLength);
+			if(BlueTooth_RxPackage[0] == '[' && BlueTooth_RxPackage[BlueTooth_RxLength - 3] == ']')
+			{
+				BlueTooth_RxFlag = 1;
+				BlueTooth_RxPackage[BlueTooth_RxLength - 3] = '\0';
+				DMA_SetCurrDataCounter(DMA1_Channel6,BlueTooth_Rx_Buf);
+				DMA_Cmd(DMA1_Channel6,ENABLE);				
+			}
+			else
+			{
+				DMA_SetCurrDataCounter(DMA1_Channel6,BlueTooth_Rx_Buf);
+				DMA_Cmd(DMA1_Channel6,ENABLE);
+			}
 		}
-		else if(RxStatus == 1)
+		else
 		{
-			if(USART_ReceiveData(USART2) == ']')
-			{
-				RxStatus = 0;
-				BlueTooth_RxPackage[Freq] = '\0';
-				// xQueueSend(bluetooth_receive_queue,BlueTooth_RxPackage,0);
-				xTaskNotifyFromISR(Task_Bluetooth_Handle,0x01,eSetBits,NULL);
-			}
-			else 
-			{
-			BlueTooth_RxPackage[Freq] = RxData;		
-			Freq ++;			
-			}
-		}		
+			DMA_SetCurrDataCounter(DMA1_Channel6,BlueTooth_Rx_Buf);
+			DMA_Cmd(DMA1_Channel6,ENABLE);
+		}
 	}
+	USART_ClearITPendingBit(USART2,USART_IT_IDLE);
 }
 

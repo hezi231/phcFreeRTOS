@@ -56,8 +56,8 @@ typedef struct {
 
 /*速度设置结构体*/
 typedef struct {
-	float target_speed;
-	float turn_speed;
+	int8_t target_speed;
+	int8_t turn_speed;
 }Target_Speed_t;
 
 /*PID结构体*/
