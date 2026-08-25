@@ -4,6 +4,7 @@
 #include "NRF24L01.h"
 #include "Task_PID.h"
 
+static uint8_t NRF24L01_ReceiveERR_Count;
 void Task_NRF24L01(void *arg)
 {
     TickType_t last_wake_time = xTaskGetTickCount();
@@ -14,13 +15,24 @@ void Task_NRF24L01(void *arg)
     {
         if(NRF24L01_Receive(RXData,4) == NRF24L01_ReceiveData)
         {
+            NRF24L01_ReceiveERR_Count = 0;
             rocker_send.LH = RXData[0];
             rocker_send.LV = RXData[1];
             rocker_send.RH = RXData[2];
             rocker_send.RV = RXData[3];
-            SpeedPID.Target = rocker_send.LV / 20.0;
+            SpeedPID.Target = rocker_send.LV / 25.0;
             TurnPID.Target = rocker_send.RH / 25.0;
             xQueueSend(nrf24l01_queuek,&rocker_send,0);
+        }
+        else if(NRF24L01_Receive(RXData,4) != NRF24L01_ReceiveData)
+        {
+            if(++ NRF24L01_ReceiveERR_Count >= 5)
+            {
+                NRF24L01_ReceiveERR_Count = 0;
+                SpeedPID.Target = 0;
+                TurnPID.Target = 0;
+                xQueueSend(nrf24l01_queuek,&rocker_send,0);            
+            }
         }
         vTaskDelayUntil(&last_wake_time,DelayTime);
     }

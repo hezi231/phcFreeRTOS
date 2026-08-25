@@ -12,6 +12,6 @@ typedef struct
 extern const uint8_t OLED_F8x16[][16];
 extern const uint8_t OLED_F6x8[][6];
 extern const ChineseCell_t OLED_CF16x16[];
-
+extern const uint8_t OLED_Image[][32];
 
 #endif

@@ -36,5 +36,6 @@ void NRF24L01_ReadRxPayload(uint8_t *Data,uint8_t count);
 void NRF24L01_Init(void);
 uint8_t NRF24L01_Send(uint8_t* TxAddr,uint8_t* Data,uint8_t count);
 uint8_t NRF24L01_Receive(uint8_t* Buffer,uint8_t count);
+void NRF24L01_SignalStrength(uint8_t flag,uint8_t x,uint8_t y,uint8_t width,uint8_t height);
 
 #endif

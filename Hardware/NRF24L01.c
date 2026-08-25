@@ -1,35 +1,36 @@
 #include "stm32f10x.h"                  // Device header
 #include "NRF24L01.h"  
 #include "Delay.h"  
+#include "OLED.h"
 
 uint8_t NRF24L01_RxAddr[5] = {0x11,0x22,0x33,0x44,0x55};
 
-void NRF24L01_W_CE(uint8_t BitValue)
+static void NRF24L01_W_CE(uint8_t BitValue)
 {
 	GPIO_WriteBit(GPIOA,GPIO_Pin_8,(BitAction)BitValue);
 }
 
-void NRF24L01_W_CSN(uint8_t BitValue)
+static void NRF24L01_W_CSN(uint8_t BitValue)
 {
 	GPIO_WriteBit(GPIOA,GPIO_Pin_15,(BitAction)BitValue);
 }
 
-void NRF24L01_W_SCK(uint8_t BitValue)
+static void NRF24L01_W_SCK(uint8_t BitValue)
 {
 	GPIO_WriteBit(GPIOB,GPIO_Pin_3,(BitAction)BitValue);
 }
 
-void NRF24L01_W_MOSI(uint8_t BitValue)
+static void NRF24L01_W_MOSI(uint8_t BitValue)
 {
 	GPIO_WriteBit(GPIOB,GPIO_Pin_5,(BitAction)BitValue);
 }
 
-uint8_t NRF24L01_R_MISO(void)
+static uint8_t NRF24L01_R_MISO(void)
 {
 	return GPIO_ReadInputDataBit(GPIOB,GPIO_Pin_4);
 }
 
-void NRF24L01_GPIO_Init(void)
+static void NRF24L01_GPIO_Init(void)
 {
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO,ENABLE);
 	GPIO_PinRemapConfig(GPIO_Remap_SWJ_JTAGDisable,ENABLE);
@@ -60,7 +61,7 @@ void NRF24L01_GPIO_Init(void)
 }
 
 /*协议函数*/
-uint8_t NRF24L01_SPI_SwapByte(uint8_t Byte)
+static uint8_t NRF24L01_SPI_SwapByte(uint8_t Byte)
 {
 	uint8_t ReceiveByte = 0x00;
 	for(uint8_t i = 0;i < 8;i ++)
@@ -296,4 +297,40 @@ uint8_t NRF24L01_Receive(uint8_t* Buffer,uint8_t count)
 		return flag;
 	}
 	return NRF24L01_RxNULL;
+}
+
+void NRF24L01_SignalStrength(uint8_t flag,uint8_t x,uint8_t y,uint8_t width,uint8_t height)
+{
+	static uint8_t sendflag[10];
+	static uint8_t p = 0;
+	
+	OLED_ClearArea(x,y,width,height);
+	sendflag[p] = flag;
+	p ++;
+	p %= 10;
+	
+	uint8_t success_count = 0;
+	for(uint8_t i = 0;i < 10;i ++)
+	{
+		if(sendflag[i] == NRF24L01_Send_Success)
+		{
+			success_count ++;
+		}
+	}
+	if(success_count == 0)
+	{
+		OLED_ShowImage(x,y,width,height,OLED_Image[3]);
+	}
+	else if(success_count > 0 && success_count <= 4)
+	{
+		OLED_ShowImage(x,y,width,height,OLED_Image[2]);
+	}
+	else if(success_count > 4 && success_count <= 8)
+	{
+		OLED_ShowImage(x,y,width,height,OLED_Image[1]);
+	}
+	else if(success_count > 8 && success_count <= 10)
+	{
+		OLED_ShowImage(x,y,width,height,OLED_Image[0]);
+	}
 }

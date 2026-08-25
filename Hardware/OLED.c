@@ -390,30 +390,6 @@ void OLED_ShowImage(uint8_t x,uint8_t y,uint8_t width,uint8_t height,const uint8
 	}
 }
 
-//void OLED_ShowChinese(uint8_t x,uint8_t y,char *Chinese)
-//{
-//	uint8_t pIndex;
-//	uint8_t pChinese = 0;
-//	char SigleChinese[4] = {0};
-//	for(uint8_t i = 0;Chinese[i] != '\0';i ++)
-//	{
-//		SigleChinese[pChinese] = Chinese[i];
-//		pChinese ++;
-//		if(pChinese >= 3)
-//		{
-//			pChinese = 0;
-//			for(pIndex = 0;strcmp(OLED_CF16x16[pIndex].Index, "") != 0;pIndex ++)
-//			{
-//				if(strcmp(OLED_CF16x16[pIndex].Index,SigleChinese) == 0)
-//				{
-//					break;
-//				}
-//			}
-//			OLED_ShowImage(x + ((i + 1) / 3 - 1) * 16,y,16,16,OLED_CF16x16[pIndex].Data);
-//		}
-//	}
-//}	
-
 void OLED_Printf(int16_t X, int16_t Y, uint8_t FontSize, char *format, ...)
 {
 	char String[256];	

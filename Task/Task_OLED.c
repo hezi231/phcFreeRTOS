@@ -7,82 +7,21 @@
 
 void Task_OLED(void *arg)
 {
-    /*按键测试*/
-    //int8_t receive = 0;
-    // while (1)
-    // {
-    //     xQueueReceive(key_queue,&receive,portMAX_DELAY);
-    //     OLED_Printf(0,0,OLED_8X16,"%d",receive);
-    //     OLED_UpData();
-    //     vTaskDelay(10);
-    // }
-
-    /*MPU6050测试*/
-    // MPU6050_Data_t mpu6050_data;
-    // int8_t receive = 0;
-    // while (1)
-    // {
-    //     OLED_Clear();
-    //     xQueuePeek(mpu6050_queue, &mpu6050_data, portMAX_DELAY);
-    //     OLED_ShowSignedNum(0,0,mpu6050_data.ACCx,5,OLED_8X16);
-	// 	OLED_ShowSignedNum(0,17,mpu6050_data.ACCy,5,OLED_8X16);
-	// 	OLED_ShowSignedNum(0,33,mpu6050_data.ACCz,5,OLED_8X16);
-	// 	OLED_ShowSignedNum(6 * 8 + 1,0,mpu6050_data.GYROx,5,OLED_8X16);
-	// 	OLED_ShowSignedNum(6 * 8 + 1,17,mpu6050_data.GYROy,5,OLED_8X16);
-	// 	OLED_ShowSignedNum(6 * 8 + 1,33,mpu6050_data.GYROz,5,OLED_8X16);
-
-    //     xQueueReceive(key_queue,&receive,0);
-    //     OLED_Printf(0,49,OLED_8X16,"%d",receive);
-    //     OLED_UpData();
-    //     vTaskDelay(10);
-    // }
-
-    /*编码器测试*/
-    // Encoder_Data_t encoder_data;
-    // int8_t receive = 0;
-
-    // while (1)
-    // {
-    //     OLED_Clear();
-    //     xQueueReceive(key_queue,&receive,0);
-    //     xQueueReceive(encouder_queue, &encoder_data, portMAX_DELAY);
-    //     OLED_ShowSignedNum(0,0,encoder_data.Encoder_Left,5,OLED_8X16);
-    //     OLED_ShowSignedNum(0,17,encoder_data.Encoder_Right,5,OLED_8X16);
-    //     OLED_Printf(0,49,OLED_8X16,"%d",receive);
-    //     OLED_UpData();
-    // }
-
-    /*蓝牙测试*/
-    // while(1)
-    // {
-    //     OLED_Clear();
-    // 	OLED_Printf(0,0,OLED_6X8,"Kp:%3.2f",AnglePID.Kp);
-	// 	OLED_Printf(0,9,OLED_6X8,"Kp:%3.2f",AnglePID.Ki);
-	// 	OLED_Printf(0,17,OLED_6X8,"Kp:%3.2f",AnglePID.Kd);
-	// 	OLED_Printf(0,25,OLED_6X8,"Tar:%5.2f",AnglePID.Target);
-	// 	// OLED_Printf(0,33,OLED_6X8,"Act:%5.2f",Angle);
-	// 	// OLED_Printf(0,25,OLED_6X8,"Tar:%5.2f",AnglePID.Target);
-	// 	// OLED_Printf(0,33,OLED_6X8,"Act:%5.2f",Angle);
-	// 	// OLED_Printf(0,41,OLED_6X8,"Out:%5.2f",AnglePID.Out);
-    //     OLED_UpData();
-    //     vTaskDelay(5);
-    // }
-    /*NRF24L001测试*/
     Rocker_t receive;
     Target_Speed_t bluetooth_receive;
     while(1)
     {
         xQueueReceive(nrf24l01_queuek,&receive,0);
 
-        OLED_Printf(0,0,OLED_8X16,"LH:%d",receive.LH);
-        OLED_Printf(0,17,OLED_8X16,"LV:%d",receive.LV);
-        OLED_Printf(0,33,OLED_8X16,"RH:%d",receive.RH);
-        OLED_Printf(0,49,OLED_8X16,"RV:%d",receive.RV);
+        OLED_Printf(0,0,OLED_6X8,"LH:%d",receive.LH);
+        OLED_Printf(0,9,OLED_6X8,"LV:%d",receive.LV);
+        OLED_Printf(0,17,OLED_6X8,"RH:%d",receive.RH);
+        OLED_Printf(0,25,OLED_6X8,"RV:%d",receive.RV);
         OLED_UpData();
         xQueueReceive(motor_speed_target_queue,&bluetooth_receive,0);
         OLED_ClearArea(57,0,7 * 8,2 * 16);
-        OLED_Printf(57,0,OLED_8X16,"LV:%d",bluetooth_receive.target_speed);
-        OLED_Printf(57,17,OLED_8X16,"RH:%d",bluetooth_receive.turn_speed);
+        OLED_Printf(47,0,OLED_6X8,"LV:%d",bluetooth_receive.target_speed);
+        OLED_Printf(47,9,OLED_6X8,"RH:%d",bluetooth_receive.turn_speed);
 
         OLED_UpData();        
         vTaskDelay(10);
