@@ -13,8 +13,8 @@ void Task_Bluetooth(void *arg)
 	uint32_t notify_value[1] = {0};
 	char send_string[100];
 
-    while(1)
-    {
+	while(1)
+	{
 		xTaskNotifyWait((uint32_t)0x00, (uint32_t)0xffffffff, notify_value, 10);
 		if(notify_value[0] & 0x02)
 		{

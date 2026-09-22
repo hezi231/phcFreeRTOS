@@ -13,6 +13,7 @@ void Task_OLED(void *arg)
     {
         xQueueReceive(nrf24l01_queuek,&receive,0);
 
+        OLED_ClearArea(0,0,7 * 6,4 * 8);
         OLED_Printf(0,0,OLED_6X8,"LH:%d",receive.LH);
         OLED_Printf(0,9,OLED_6X8,"LV:%d",receive.LV);
         OLED_Printf(0,17,OLED_6X8,"RH:%d",receive.RH);

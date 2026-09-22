@@ -13,13 +13,13 @@ void Task_NRF24L01(void *arg)
     Rocker_t rocker_send;
     while(1)
     {
-        if(NRF24L01_Receive(RXData,4) == NRF24L01_ReceiveData)
+        if(NRF24L01_Receive(RXData,32) == NRF24L01_ReceiveData)
         {
             NRF24L01_ReceiveERR_Count = 0;
-            rocker_send.LH = RXData[0];
-            rocker_send.LV = RXData[1];
-            rocker_send.RH = RXData[2];
-            rocker_send.RV = RXData[3];
+            rocker_send.LH = RXData[1];
+            rocker_send.LV = RXData[2];
+            rocker_send.RH = RXData[3];
+            rocker_send.RV = RXData[4];
             SpeedPID.Target = rocker_send.LV / 20.0;
             TurnPID.Target = rocker_send.RH / 25.0;
             xQueueSend(nrf24l01_queuek,&rocker_send,0);
